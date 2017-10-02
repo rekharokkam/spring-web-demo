@@ -1,0 +1,20 @@
+DispatcherServlet - It routes some of the requests based on the pattern to controller.  
+Controller - Controller is a piece of code that performs our business logic. It handles the requests. Logic we perform for a particular request.
+Request Mapping - decides which requests are processed by which Controller
+root-context.xml - equivalent to application-context.xml for the entire web application. Its not tied to DispatcherServlet. Mechanism to bootstrap Spring IOC Container for web apps. 
+Its the place to add all the data layer configurations and other app related bean configurations. 
+servlet-context.xml - place for adding all MVC related bean and other configuration information.
+
+servlet-context.xml 
+-------------------
+
+<annotation-driven /> - indicates that we will configure Spring MVC using Annotations
+<resources mapping="/resources/**" location="/resources/" /> - directory that holds all the client side resources - js, css, .. Dispatcher servlet will not process the files placed in this directory. 
+Static files placed in this directory need not be mapped to any request paths.
+
+<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver"> - 
+Once a controller completes processing of business logic it tells us a view-name that would like us to return. We will build a model and pass it to the view.
+<beans:property name="prefix" value="/WEB-INF/views/" />
+<beans:property name="suffix" value=".jsp" />
+view name returned by the controller is prefixed and suffix as above. This structure separates the controller from the view and it is easy to switch out the view technology used.
+<context:component-scan base-package="com.learning.spring" /> - checks to see if there are any classes annotated with @Controller Annotation.
